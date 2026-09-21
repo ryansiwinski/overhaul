@@ -45,6 +45,7 @@
   td:nth-child(2), td:nth-child(3) { white-space: nowrap; color: var(--dim); width: 88px; }
   .pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
   .pill { border: 1px solid var(--line); border-radius: 999px; padding: 4px 9px; font-size: 11px; color: var(--dim); }
+  .pill.hi { border-color: #3a241f; color: #ffb4a6; }
   .day { margin-bottom: 14px; }
   .hidden { display: none; }
   footer { color: var(--dim); font-size: 11px; text-align: center; padding: 20px; }
@@ -81,7 +82,630 @@
   </nav>
 </header>
 <main>
-<p class="dim">Plan loaded. If you see this stub, the full file failed to upload — use the local index.html.</p>
+<section id="week">
+  <div class="card" style="margin-bottom:12px">
+    <div class="kicker">Select week</div>
+    <div class="pills" id="weeks"></div>
+    <div class="dim" id="weekmeta"></div>
+  </div>
+  <div id="weekbody"></div>
+</section>
+
+<section id="food" class="hidden">
+  <div class="grid g2">
+    <div class="card">
+      <div class="kicker">Daily targets</div>
+      <h2>2,700 kcal</h2>
+      <table class="targets">
+        <tr><td>Protein</td><td>200–250 g</td></tr>
+        <tr><td>Fat</td><td>70–80 g</td></tr>
+        <tr><td>Carbs</td><td>the rest (~230–280 g)</td></tr>
+        <tr><td>Fiber</td><td>25 g+</td></tr>
+        <tr><td>Cutoff</td><td>last meal 8:30 pm</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="kicker">Rules</div>
+      <p>No juice as carbs.</p>
+      <p>Protein cap 250 g.</p>
+      <p>Beef ~8 oz / meal, not a pound.</p>
+      <p>Veg at lunch + dinner.</p>
+      <p>Weekend within 300 of 2,700.</p>
+      <p>Creatine 5 g daily.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="kicker">Default day</div>
+    <table>
+      <tr><th>Meal</th><th>Build</th></tr>
+      <tr><td>1</td><td>Eggs + oats + berries</td></tr>
+      <tr><td>2</td><td>6–8 oz meat · rice/potato · big veg + oil</td></tr>
+      <tr><td>Lift</td><td>Banana or rice cake if hungry. Whey only if a meal misses 40 g P</td></tr>
+      <tr><td>3</td><td>6–8 oz meat · potato · broccoli/slaw · done by 8:30</td></tr>
+      <tr><td>If short</td><td>Yogurt or cottage — not a second shake + juice</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="cardio" class="hidden">
+  <div class="card">
+    <div class="kicker">Pick from the week sheet. Don’t stack all of these.</div>
+    <h2>Cardio mix</h2>
+    <table>
+      <tr><th>Type</th><th>Use</th></tr>
+      <tr><td>Incline walk</td><td>Default fat-loss. 3.0–3.5 mph, 8–12%, 25–40 min. Talk pace.</td></tr>
+      <tr><td>Easy run / run-walk</td><td>Sat. 20–30 min. Can talk.</td></tr>
+      <tr><td>Bike / row EMOM</td><td>From your Cycle 3 sheet. Hard but short. Only if sleep is good.</td></tr>
+      <tr><td>Hill / 30-90s</td><td>Weeks 5+. 8 rounds. Skip if under 7h sleep.</td></tr>
+      <tr><td>Steps</td><td>8–10k every day including walks.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="abs" class="hidden">
+  <div class="card">
+    <div class="kicker">Garrett rule — core most lift days. Abs show from the cut.</div>
+    <h2>Ab mix</h2>
+    <table>
+      <tr><th>Circuit</th><th>Work</th></tr>
+      <tr><td>A Groove</td><td>Plank 40s · dead bug 10/side · heel tap 12</td></tr>
+      <tr><td>B Wheel</td><td>Ab wheel 8–12 · side plank 25s · crunch 12</td></tr>
+      <tr><td>C Hang</td><td>Hanging knee raise 10 · pallof 8/side · sit-up 12</td></tr>
+      <tr><td>D Cycle 3</td><td>Hollow 30s · penguin taps 20s · weighted side plank 25s</td></tr>
+      <tr><td>E March</td><td>Plank march 40s · Copenhagen 20s/side · wheel 8</td></tr>
+      <tr><td>F TGU core</td><td>TGU 2/side light · KB plank drag 40s · hollow 30s</td></tr>
+      <tr><td>G Density</td><td>Hanging raise 10 · wheel 8 · hollow hold 25s</td></tr>
+      <tr><td>H Twist</td><td>Decline sit-up 12 · wheel 8 · side crunch 10/side</td></tr>
+    </table>
+    <p class="dim" style="margin-top:8px">2–3 rounds. End of lift. Not a standalone 40-min ab class.</p>
+  </div>
+</section>
+
+<section id="log" class="hidden">
+  <div class="card">
+    <div class="kicker">Local only · food stays in MyFitnessPal</div>
+    <h2>Today</h2>
+    <div class="grid g2">
+      <div>
+        <label>Date</label>
+        <input type="date" id="logDate" />
+        <label>Morning weight (lb)</label>
+        <input type="number" id="logWt" step="0.1" placeholder="230" />
+        <label>Waist (in) · Sundays</label>
+        <input type="number" id="logWaist" step="0.1" placeholder="optional" />
+      </div>
+      <div>
+        <label>Done</label>
+        <div class="checks">
+          <label><input type="checkbox" id="cBench" /> Bench</label>
+          <label><input type="checkbox" id="cSquat" /> Squat</label>
+          <label><input type="checkbox" id="cDl" /> Deadlift</label>
+          <label><input type="checkbox" id="cKb" /> KB / mix</label>
+          <label><input type="checkbox" id="cWalk" /> Walk</label>
+          <label><input type="checkbox" id="cRun" /> Run</label>
+          <label><input type="checkbox" id="cSleep" /> Sleep 7.5h+</label>
+        </div>
+      </div>
+    </div>
+    <h3>Top sets</h3>
+    <div class="grid g2">
+      <div>
+        <label>Bench · lb × reps</label>
+        <input type="text" id="topBench" placeholder="185 × 8" />
+      </div>
+      <div>
+        <label>Squat · lb × reps</label>
+        <input type="text" id="topSquat" placeholder="225 × 6" />
+      </div>
+      <div>
+        <label>Deadlift · lb × reps</label>
+        <input type="text" id="topDl" placeholder="275 × 5" />
+      </div>
+      <div>
+        <label>Note</label>
+        <input type="text" id="logNote" placeholder="optional" />
+      </div>
+    </div>
+    <button class="save" id="saveLog">Save day</button>
+    <p class="dim" id="logMsg" style="margin-top:8px"></p>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="kicker">History</div>
+    <div id="hist"></div>
+  </div>
+</section>
+
+<section id="sleep" class="hidden">
+  <div class="grid g2">
+    <div class="card">
+      <div class="kicker">Non-negotiable</div>
+      <h2>7.5–9 hours</h2>
+      <p>Bed 10:30. Same wake time.</p>
+      <p>Dark / cool room.</p>
+      <p>Two nights under 7h → skip Saturday intervals. Walk only.</p>
+    </div>
+    <div class="card">
+      <div class="kicker">Sunday 10 min</div>
+      <p>7-day weight average.</p>
+      <p>Waist tape at navel.</p>
+      <p>4 lifts + walks done?</p>
+      <p>Photos weeks 0 / 4 / 7 / 10.</p>
+    </div>
+  </div>
+</section>
 </main>
+<footer>Not medical advice. Cycle 3 flavor scaled — no muscle-ups, no 85% jerk waves. Strength + mixed cond + core.</footer>
+<script>
+const WEEKS = [
+{
+  n:1, dates:"Sep 21–27", tag:"GROOVE", note:"Simple bars. Learn days. Weights feel easy.",
+  days:[
+    ["MON · BENCH + cond primer",[
+      ["Barbell bench","4×6–8","2:00"],
+      ["Chest-supported row","3×8–10","1:30"],
+      ["Seated DB press","3×8–10","1:30"],
+      ["Laterals","3×15","1:00"],
+      ["ABS A","2 rnd"],
+      ["Easy incline walk","20 min"]
+    ]],
+    ["TUE · SQUAT",[
+      ["Back squat or goblet","4×6–8","2:30"],
+      ["RDL","3×8","2:00"],
+      ["Walking lunge","3×8/leg","1:30"],
+      ["Leg curl + calf","3×12"],
+      ["Incline walk","25 min"]
+    ]],
+    ["WED · WALK + CORE",[
+      ["Incline walk","30–40 min"],
+      ["ABS D (Cycle 3 hollow / penguin / side plank)","3 rnd"]
+    ]],
+    ["THU · DL + PULL",[
+      ["Trap-bar DL","4×5","2:30"],
+      ["Pull-up or pulldown","3×6–10","2:00"],
+      ["Cable row","3×10","1:30"],
+      ["Face pull","3×15"],
+      ["ABS A","2 rnd"]
+    ]],
+    ["FRI · KB / FUNCTIONAL",[
+      ["KB swing","4×15"],
+      ["KB goblet squat","3×10"],
+      ["KB press + row","3×8 / arm"],
+      ["Farmer carry","3×40 yd"],
+      ["ABS F light TGU 2/side","—"]
+    ]],
+    ["SAT · RUN",[
+      ["Easy jog / run-walk","20–25 min talk pace"]
+    ]],
+    ["SUN · OFF","waist tape · food prep · 8k steps optional"]
+  ]
+},
+{
+  n:2, dates:"Sep 28–Oct 4", tag:"UNILATERAL", note:"One-limb work. Same bones.",
+  days:[
+    ["MON · INCLINE BENCH",[
+      ["Incline bar / Smith","4×6–8"],
+      ["One-arm DB row","3×8/arm"],
+      ["DB bench","3×10"],
+      ["Lean-away laterals","3×12"],
+      ["ABS B wheel","2 rnd"]
+    ]],
+    ["TUE · SQUAT",[
+      ["Front or goblet squat","4×6–8"],
+      ["Bulgarian split squat","3×8/leg"],
+      ["Single-leg RDL","3×8/leg"],
+      ["Leg ext","3×12"],
+      ["Incline walk","30 min"]
+    ]],
+    ["WED · EMOM CORE + WALK",[
+      ["Incline walk","35 min"],
+      ["EMOM 9: 30s hollow / 30s side plank / 30s dead bug","Cycle 3 style"]
+    ]],
+    ["THU · DL",[
+      ["Conventional DL moderate","4×5"],
+      ["Chest-supported row","3×10"],
+      ["Rear-delt fly","3×15"],
+      ["ABS B","2 rnd"]
+    ]],
+    ["FRI · KB MIX",[
+      ["KB clean + press","3×6/arm"],
+      ["KB swing","5×12"],
+      ["Push-up","3×10–15"],
+      ["Suitcase carry","3×30 yd/side"]
+    ]],
+    ["SAT · RUN",[
+      ["8 × 1 min jog / 1 min walk","16 min"]
+    ]],
+    ["SUN · OFF","tape optional"]
+  ]
+},
+{
+  n:3, dates:"Oct 5–11", tag:"PRESS + HINGE", note:"Heavier bench / squat / DL. Check 3-wk weight avg.",
+  days:[
+    ["MON · BENCH STRENGTH",[
+      ["Flat bench","5×5"],
+      ["Incline DB","3×10"],
+      ["Barbell row","4×8"],
+      ["Dip or decline","3×8"],
+      ["ABS C hang","2 rnd"]
+    ]],
+    ["TUE · SQUAT STRENGTH",[
+      ["Back squat","5×5"],
+      ["RDL","4×8"],
+      ["Step-up","3×8/leg"],
+      ["Incline walk","30 min"]
+    ]],
+    ["WED · COND",[
+      ["Every 3 min × 5: 200m jog + 15 cal bike or 12 KB swing","easy-hard"],
+      ["ABS D","2 rnd"]
+    ]],
+    ["THU · DL",[
+      ["Trap-bar","5×5"],
+      ["Pull-up","4×AMRAP-2"],
+      ["One-arm row","3×10"],
+      ["ABS C","2 rnd"]
+    ]],
+    ["FRI · KB",[
+      ["KB front squat","4×8"],
+      ["KB swing","4×20"],
+      ["KB push press","3×8"],
+      ["Walk","25 min"]
+    ]],
+    ["SAT · RUN",[
+      ["Easy run","25 min"]
+    ]],
+    ["SUN · OFF","if 3-wk avg hasn't dropped ~1.5 lb → food 2,500"]
+  ]
+},
+{
+  n:4, dates:"Oct 12–18", tag:"VOLUME · PHOTOS", note:"Extra set. Same bathroom photos.",
+  days:[
+    ["MON · BENCH VOLUME",[
+      ["Incline bench","4×8"],
+      ["Flat DB press","4×10"],
+      ["Chest-supported row","4×10"],
+      ["Laterals","4×12"],
+      ["ABS E","3 rnd"]
+    ]],
+    ["TUE · SQUAT VOLUME",[
+      ["Squat","4×8"],
+      ["Walking lunge","4×10/leg"],
+      ["RDL","3×10"],
+      ["Ext + curl super","3×12"],
+      ["Walk","35 min"]
+    ]],
+    ["WED · WALK",[
+      ["Incline","40 min"],
+      ["ABS D","3 rnd"]
+    ]],
+    ["THU · HINGE",[
+      ["RDL main","4×8"],
+      ["Barbell row","4×8"],
+      ["Face pull + curl","3×12"],
+      ["ABS E","3 rnd"]
+    ]],
+    ["FRI · KB DENSITY",[
+      ["Swings","6×10"],
+      ["Goblet","3×12"],
+      ["KB floor press","3×10"],
+      ["Farmer","4×40 yd"]
+    ]],
+    ["SAT · RUN",[
+      ["3 min run / 1 min walk × 6","24 min"]
+    ]],
+    ["SUN · OFF","photos + tape"]
+  ]
+},
+{
+  n:5, dates:"Oct 19–25", tag:"DENSITY", note:"Shorter rest. Optional intervals only if slept.",
+  days:[
+    ["MON · BENCH DENSITY",[
+      ["Bench","4×6"],
+      ["Row + face pull no rest","3×10/15"],
+      ["OHP","3×8"],
+      ["Fly + laterals","3×12"],
+      ["ABS G","3 rnd"]
+    ]],
+    ["TUE · SQUAT",[
+      ["Squat","4×6"],
+      ["Split squat","3×10/leg"],
+      ["Hip thrust or back ext","3×12"],
+      ["Walk","35 min"]
+    ]],
+    ["WED · OPTIONAL HIIT",[
+      ["8 × 30s hard / 90s easy bike-hill-row","skip if <7.5h sleep"],
+      ["or just 35 min walk"]
+    ]],
+    ["THU · DL",[
+      ["Trap-bar","4×5"],
+      ["Pull-up","3×8"],
+      ["Cable row + straight-arm","3×12"],
+      ["ABS G","3 rnd"]
+    ]],
+    ["FRI · KB COMPLEX",[
+      ["Swing / clean / squat / press","4×6 each"],
+      ["Push-up","3×max-2"],
+      ["Suitcase carry","3×40 yd"]
+    ]],
+    ["SAT · RUN",[
+      ["Easy run","30 min"]
+    ]],
+    ["SUN · OFF",""]
+  ]
+},
+{
+  n:6, dates:"Oct 26–Nov 1", tag:"DELTS + KB", note:"Wahlberg shoulders. Garrett core.",
+  days:[
+    ["MON · CHEST / DELTS",[
+      ["Incline DB","4×8"],
+      ["Flat bench","3×8"],
+      ["Row","4×8"],
+      ["Seated DB press","3×10"],
+      ["Lateral + rear","3×15"],
+      ["ABS B","3 rnd"]
+    ]],
+    ["TUE · SQUAT",[
+      ["Goblet or front","4×8"],
+      ["RDL","4×8"],
+      ["Walking lunge","3×12/leg"],
+      ["Walk","35 min"]
+    ]],
+    ["WED · CORE EMOM",[
+      ["Walk","30 min"],
+      ["EMOM 12: TGU 1/side odd min · hollow 30s even","light KB"]
+    ]],
+    ["THU · DL",[
+      ["Trap-bar or conv","4×5"],
+      ["Chest-supported row","4×10"],
+      ["Face pull + pull-apart","3×15"],
+      ["ABS F","3 rnd"]
+    ]],
+    ["FRI · HEAVY SWINGS",[
+      ["KB swing","8×8"],
+      ["KB high pull or snatch","3×6/arm"],
+      ["Halo or windmill","3×5/side"],
+      ["Farmer","3×50 yd"]
+    ]],
+    ["SAT · RUN",[
+      ["Hills or 10×45s jog/walk","15–25 min"]
+    ]],
+    ["SUN · OFF",""]
+  ]
+},
+{
+  n:7, dates:"Nov 2–8", tag:"STRENGTH · PHOTOS", note:"Lower reps on the bones.",
+  days:[
+    ["MON · BENCH HEAVY",[
+      ["Bench","5×4–6"],
+      ["Dip or DB bench","3×6–8"],
+      ["Barbell row","4×6"],
+      ["Laterals","3×12"],
+      ["ABS G","3 rnd"]
+    ]],
+    ["TUE · SQUAT HEAVY",[
+      ["Squat","5×4–6"],
+      ["Bulgarian","3×6/leg"],
+      ["Leg curl","3×8"],
+      ["Walk","40 min"]
+    ]],
+    ["WED · WALK",[
+      ["Incline","40 min"],
+      ["ABS D","3 rnd"]
+    ]],
+    ["THU · DL HEAVY",[
+      ["Trap-bar","5×3–5"],
+      ["Pull-up","4×5–8"],
+      ["Chest-supported row","3×8"],
+      ["ABS G","3 rnd"]
+    ]],
+    ["FRI · KB",[
+      ["Goblet","4×8"],
+      ["Swing","5×12"],
+      ["KB press","3×6/arm"],
+      ["Walk","25 min"]
+    ]],
+    ["SAT · RUN",[
+      ["Easy","25–30 min"]
+    ]],
+    ["SUN · OFF","photos. stall 14d → 2,500 kcal"]
+  ]
+},
+{
+  n:8, dates:"Nov 9–15", tag:"TIGHTEN", note:"Drop-set last accessory set.",
+  days:[
+    ["MON · BENCH",[
+      ["Incline","4×6–8"],
+      ["DB press last set drop","3×8+drop"],
+      ["Row","4×8"],
+      ["Laterals drop","3×12+drop"],
+      ["ABS H","3 rnd"]
+    ]],
+    ["TUE · SQUAT",[
+      ["Squat","4×6–8"],
+      ["RDL","3×8"],
+      ["Leg ext drop","3×12+drop"],
+      ["Walk","40 min"]
+    ]],
+    ["WED · WALK",[
+      ["40 min"]
+    ]],
+    ["THU · HINGE",[
+      ["RDL or trap-bar","4×6"],
+      ["Pull-up","3×8"],
+      ["Face pull + curl drop","3×12+drop"],
+      ["ABS H","3 rnd"]
+    ]],
+    ["FRI · KB",[
+      ["Swing","5×15"],
+      ["Clean + squat","3×8"],
+      ["Push-up drop","2"],
+      ["Carry","3×40 yd"]
+    ]],
+    ["SAT · RUN",[
+      ["Easy + 4 pickups","25 min"]
+    ]],
+    ["SUN · OFF",""]
+  ]
+},
+{
+  n:9, dates:"Nov 16–22", tag:"CIRCUITS", note:"Bones heavy. Accessories as circuits. Cycle 3 energy.",
+  days:[
+    ["MON · BENCH + CIRCUIT",[
+      ["Bench","4×6"],
+      ["Circuit ×3: row / laterals / pushdown / curl","10–12"],
+      ["ABS I 40/20 ×6","6 min"]
+    ]],
+    ["TUE · SQUAT + CIRCUIT",[
+      ["Squat","4×6"],
+      ["Circuit ×3: lunge / RDL / calf","10"],
+      ["Walk","40 min"]
+    ]],
+    ["WED · MIXED COND",[
+      ["4 rds: 20 lunge / 10 squat jump or step-over / 200m jog","Cycle 3 fitness scale"]
+    ]],
+    ["THU · DL + CIRCUIT",[
+      ["DL variation","4×5"],
+      ["Circuit ×3: pulldown / face pull / hammer","10–12"],
+      ["ABS I","6 min"]
+    ]],
+    ["FRI · KB CIRCUIT",[
+      ["4 rds: swing 15 / goblet 8 / press 6 / row 8"],
+      ["Farmer","3×40 yd"]
+    ]],
+    ["SAT · RUN",[
+      ["Easy","30 min"]
+    ]],
+    ["SUN · OFF","no weekend blowout"]
+  ]
+},
+{
+  n:10, dates:"Nov 23–29", tag:"PEAK · PHOTOS", note:"Best lifts. Then Block 2 decision.",
+  days:[
+    ["MON · BENCH BEST 6",[
+      ["Bench","4×6"],
+      ["Incline DB","3×8"],
+      ["Row","4×8"],
+      ["Laterals + ABS G","3+2"]
+    ]],
+    ["TUE · SQUAT BEST 6",[
+      ["Squat","4×6"],
+      ["RDL","3×8"],
+      ["Split squat","3×8/leg"],
+      ["Walk","35 min"]
+    ]],
+    ["WED · WALK",[
+      ["Easy 30"]
+    ]],
+    ["THU · DL BEST 5",[
+      ["Trap-bar","4×5"],
+      ["Pull-up","3×6–10"],
+      ["Face pull","3×15"],
+      ["Favorite ab circuit","2 rnd"]
+    ]],
+    ["FRI · KB",[
+      ["Swing","5×10"],
+      ["Goblet + press","3×8"],
+      ["Carry","3×40 yd"],
+      ["Walk","20 min"]
+    ]],
+    ["SAT–SUN · CLOSE",[
+      ["Easy walk. Photos + tape + 7-day avg. Decide hold vs keep cutting."]
+    ]]
+  ]
+}
+];
+
+const weeksEl = document.getElementById("weeks");
+const meta = document.getElementById("weekmeta");
+const body = document.getElementById("weekbody");
+let cur = 0;
+
+WEEKS.forEach((w,i)=>{
+  const b = document.createElement("button");
+  b.className = "wkbtn" + (i===0?" on":"");
+  b.textContent = "W"+w.n;
+  b.onclick = ()=>{ document.querySelectorAll(".wkbtn").forEach(x=>x.classList.remove("on")); b.classList.add("on"); cur=i; render(); };
+  weeksEl.appendChild(b);
+});
+
+function render(){
+  const w = WEEKS[cur];
+  meta.textContent = w.dates + " · " + w.tag + " · " + w.note;
+  body.innerHTML = w.days.map(d=>{
+    if (typeof d[1] === "string") {
+      return `<div class="card day"><div class="kicker">${d[0]}</div><p class="dim">${d[1]||"—"}</p></div>`;
+    }
+    const rows = d[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]||""}</td><td>${r[2]||""}</td></tr>`).join("");
+    return `<div class="card day"><h3>${d[0]}</h3><table><tr><th>Move</th><th>Work</th><th></th></tr>${rows}</table></div>`;
+  }).join("");
+}
+render();
+
+document.getElementById("tabs").addEventListener("click", e=>{
+  if (e.target.tagName !== "BUTTON") return;
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.remove("on"));
+  e.target.classList.add("on");
+  ["week","food","cardio","abs","sleep","log"].forEach(id=>{
+    document.getElementById(id).classList.toggle("hidden", id !== e.target.dataset.tab);
+  });
+});
+
+const KEY = "overhaul-log-v1";
+const $ = id => document.getElementById(id);
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function loadAll(){ try { return JSON.parse(localStorage.getItem(KEY)||"[]"); } catch(e){ return []; } }
+function saveAll(rows){ localStorage.setItem(KEY, JSON.stringify(rows)); }
+
+function fillForm(row){
+  $("logDate").value = row?.date || todayISO();
+  $("logWt").value = row?.wt || "";
+  $("logWaist").value = row?.waist || "";
+  $("cBench").checked = !!row?.bench;
+  $("cSquat").checked = !!row?.squat;
+  $("cDl").checked = !!row?.dl;
+  $("cKb").checked = !!row?.kb;
+  $("cWalk").checked = !!row?.walk;
+  $("cRun").checked = !!row?.run;
+  $("cSleep").checked = !!row?.sleep;
+  $("topBench").value = row?.topBench || "";
+  $("topSquat").value = row?.topSquat || "";
+  $("topDl").value = row?.topDl || "";
+  $("logNote").value = row?.note || "";
+}
+
+function readForm(){
+  return {
+    date: $("logDate").value || todayISO(),
+    wt: $("logWt").value, waist: $("logWaist").value,
+    bench: $("cBench").checked, squat: $("cSquat").checked, dl: $("cDl").checked,
+    kb: $("cKb").checked, walk: $("cWalk").checked, run: $("cRun").checked, sleep: $("cSleep").checked,
+    topBench: $("topBench").value, topSquat: $("topSquat").value, topDl: $("topDl").value,
+    note: $("logNote").value
+  };
+}
+
+function renderHist(){
+  const rows = loadAll().slice().sort((a,b)=> b.date.localeCompare(a.date));
+  if (!rows.length){ $("hist").innerHTML = '<p class="dim">Nothing saved yet.</p>'; return; }
+  const marks = r => [r.bench&&"B",r.squat&&"S",r.dl&&"D",r.kb&&"K",r.walk&&"W",r.run&&"R",r.sleep&&"Z"].filter(Boolean).join(" ");
+  $("hist").innerHTML = `<table class="hist"><tr><th>Date</th><th>Wt</th><th>Waist</th><th>Done</th><th>Top sets</th></tr>` +
+    rows.map(r=>`<tr><td>${r.date}</td><td>${r.wt||"—"}</td><td>${r.waist||"—"}</td><td>${marks(r)||"—"}</td>
+    <td>${[r.topBench&&("B "+r.topBench),r.topSquat&&("S "+r.topSquat),r.topDl&&("D "+r.topDl)].filter(Boolean).join(" · ")||"—"}</td></tr>`).join("") + "</table>";
+}
+
+$("logDate").value = todayISO();
+$("logDate").addEventListener("change", ()=>{
+  const hit = loadAll().find(r=>r.date===$("logDate").value);
+  fillForm(hit || { date: $("logDate").value });
+});
+$("saveLog").addEventListener("click", ()=>{
+  const row = readForm();
+  const all = loadAll().filter(r=>r.date!==row.date);
+  all.push(row);
+  saveAll(all);
+  renderHist();
+  $("logMsg").textContent = "Saved " + row.date;
+});
+renderHist();
+</script>
 </body>
 </html>
