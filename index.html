@@ -64,6 +64,13 @@
     font-size: 12px; cursor: pointer; font-weight: 700;
   }
   .hist td { font-size: 12px; }
+  button.daypick {
+    display: block; width: 100%; text-align: left; background: var(--card);
+    border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+    color: var(--text); cursor: pointer;
+  }
+  button.daypick:hover, button.daypick.today { border-color: var(--accent); }
+  .daybar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -617,26 +624,58 @@ const WEEKS = [
 const weeksEl = document.getElementById("weeks");
 const meta = document.getElementById("weekmeta");
 const body = document.getElementById("weekbody");
-let cur = 0;
+const START = new Date(2026, 8, 21);
+function locToday(){
+  const n = new Date();
+  return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+}
+function todayPos(){
+  const diff = Math.round((locToday() - START) / 86400000);
+  if (diff < 0 || diff > 69) return {w:0, d:null};
+  return {w: Math.floor(diff/7), d: diff % 7};
+}
+const pos = todayPos();
+let cur = pos.w;
+let dayIdx = pos.d;
 
 WEEKS.forEach((w,i)=>{
   const b = document.createElement("button");
-  b.className = "wkbtn" + (i===0?" on":"");
+  b.className = "wkbtn" + (i===cur?" on":"");
   b.textContent = "W"+w.n;
-  b.onclick = ()=>{ document.querySelectorAll(".wkbtn").forEach(x=>x.classList.remove("on")); b.classList.add("on"); cur=i; render(); };
+  b.onclick = ()=>{
+    document.querySelectorAll("#weeks .wkbtn").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    cur=i; dayIdx=null; render();
+  };
   weeksEl.appendChild(b);
 });
+
+function renderDay(d){
+  if (typeof d[1] === "string") {
+    return `<div class="card day"><div class="kicker">${d[0]}</div><p>${d[1]||"—"}</p></div>`;
+  }
+  const rows = d[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]||""}</td><td>${r[2]||""}</td></tr>`).join("");
+  return `<div class="card day"><h3>${d[0]}</h3><table><tr><th>Move</th><th>Work</th><th></th></tr>${rows}</table></div>`;
+}
 
 function render(){
   const w = WEEKS[cur];
   meta.textContent = w.dates + " · " + w.tag + " · " + w.note;
-  body.innerHTML = w.days.map(d=>{
-    if (typeof d[1] === "string") {
-      return `<div class="card day"><div class="kicker">${d[0]}</div><p class="dim">${d[1]||"—"}</p></div>`;
-    }
-    const rows = d[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]||""}</td><td>${r[2]||""}</td></tr>`).join("");
-    return `<div class="card day"><h3>${d[0]}</h3><table><tr><th>Move</th><th>Work</th><th></th></tr>${rows}</table></div>`;
-  }).join("");
+  if (dayIdx == null){
+    body.innerHTML = `<div class="grid">` + w.days.map((d,i)=>{
+      const preview = typeof d[1]==="string" ? d[1] : (d[1][0] ? d[1][0][0] : "");
+      const on = (pos.w===cur && pos.d===i) ? " today" : "";
+      return `<button class="daypick${on}" data-i="${i}"><div class="kicker">${on?"Today":"Open"}</div><strong>${d[0]}</strong><p class="dim">${preview}</p></button>`;
+    }).join("") + `</div>`;
+    body.querySelectorAll(".daypick").forEach(b=> b.onclick = ()=>{ dayIdx = +b.dataset.i; render(); });
+    return;
+  }
+  const d = w.days[dayIdx];
+  body.innerHTML = `<div class="daybar"><button class="wkbtn" id="backWeek">← Week ${w.n}</button>
+    <button class="wkbtn" id="prevDay">Prev</button><button class="wkbtn" id="nextDay">Next</button></div>` + renderDay(d);
+  document.getElementById("backWeek").onclick = ()=>{ dayIdx=null; render(); };
+  document.getElementById("prevDay").onclick = ()=>{ dayIdx = (dayIdx - 1 + w.days.length) % w.days.length; render(); };
+  document.getElementById("nextDay").onclick = ()=>{ dayIdx = (dayIdx + 1) % w.days.length; render(); };
 }
 render();
 
