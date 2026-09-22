@@ -7,9 +7,16 @@ function locToday(){
   const n = new Date();
   return new Date(n.getFullYear(), n.getMonth(), n.getDate());
 }
+function todayISO(){
+  const n = locToday();
+  const m = String(n.getMonth()+1).padStart(2,"0");
+  const d = String(n.getDate()).padStart(2,"0");
+  return n.getFullYear() + "-" + m + "-" + d;
+}
 function todayPos(){
   const diff = Math.round((locToday() - START) / 86400000);
-  if (diff < 0 || diff > 69) return {w:0, d:null};
+  if (diff < 0) return {w:0, d:0};
+  if (diff > 69) return {w:9, d:null};
   return {w: Math.floor(diff/7), d: diff % 7};
 }
 const pos = todayPos();
@@ -23,7 +30,9 @@ WEEKS.forEach((w,i)=>{
   b.onclick = ()=>{
     document.querySelectorAll("#weeks .wkbtn").forEach(x=>x.classList.remove("on"));
     b.classList.add("on");
-    cur=i; dayIdx=null; render();
+    cur=i;
+    dayIdx = (pos.w===i && pos.d!=null) ? pos.d : null;
+    render();
   };
   weeksEl.appendChild(b);
 });
@@ -38,7 +47,8 @@ function renderDay(d){
 
 function render(){
   const w = WEEKS[cur];
-  meta.textContent = w.dates + " · " + w.tag + " · " + w.note;
+  const isToday = (pos.w===cur && pos.d===dayIdx && dayIdx!=null);
+  meta.textContent = w.dates + " · " + w.tag + (isToday ? " · TODAY" : " · " + w.note);
   if (dayIdx == null){
     body.innerHTML = `<div class="grid">` + w.days.map((d,i)=>{
       const preview = typeof d[1]==="string" ? d[1] : (d[1][0] ? d[1][0][0] : "");
@@ -68,7 +78,6 @@ document.getElementById("tabs").addEventListener("click", e=>{
 
 const KEY = "overhaul-log-v1";
 const $ = id => document.getElementById(id);
-function todayISO(){ return new Date().toISOString().slice(0,10); }
 function loadAll(){ try { return JSON.parse(localStorage.getItem(KEY)||"[]"); } catch(e){ return []; } }
 function saveAll(rows){ localStorage.setItem(KEY, JSON.stringify(rows)); }
 function fillForm(row){
