@@ -37,12 +37,13 @@ WEEKS.forEach((w,i)=>{
   weeksEl.appendChild(b);
 });
 
-function renderDay(d){
+function renderDay(d, showToday){
+  const badge = showToday ? `<div class="kicker">TODAY</div>` : "";
   if (typeof d[1] === "string") {
-    return `<div class="card day"><div class="kicker">${d[0]}</div><p>${d[1]||"—"}</p></div>`;
+    return `<div class="card day">${badge}<div class="kicker">${d[0]}</div><p>${d[1]||"—"}</p></div>`;
   }
   const rows = d[1].map(r=>`<tr><td>${r[0]}</td><td>${r[1]||""}</td><td>${r[2]||""}</td></tr>`).join("");
-  return `<div class="card day"><h3>${d[0]}</h3><table><tr><th>Move</th><th>Work</th><th></th></tr>${rows}</table></div>`;
+  return `<div class="card day">${badge}<h3>${d[0]}</h3><table><tr><th>Move</th><th>Work</th><th></th></tr>${rows}</table></div>`;
 }
 
 function render(){
@@ -60,7 +61,7 @@ function render(){
   }
   const d = w.days[dayIdx];
   body.innerHTML = `<div class="daybar"><button class="wkbtn" id="backWeek">← Week ${w.n}</button>
-    <button class="wkbtn" id="prevDay">Prev</button><button class="wkbtn" id="nextDay">Next</button></div>` + renderDay(d);
+    <button class="wkbtn" id="prevDay">Prev</button><button class="wkbtn" id="nextDay">Next</button></div>` + renderDay(d, pos.w===cur && pos.d===dayIdx);
   document.getElementById("backWeek").onclick = ()=>{ dayIdx=null; render(); };
   document.getElementById("prevDay").onclick = ()=>{ dayIdx = (dayIdx - 1 + w.days.length) % w.days.length; render(); };
   document.getElementById("nextDay").onclick = ()=>{ dayIdx = (dayIdx + 1) % w.days.length; render(); };
