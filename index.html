@@ -22,11 +22,6 @@
   </nav>
 </header>
 <main>
-<div class="card" id="dailyQuote" style="margin-bottom:12px">
-  <div class="kicker">Today</div>
-  <p id="quoteText"></p>
-  <p class="dim" id="quoteBy"></p>
-</div>
 <section id="week">
   <div class="card" style="margin-bottom:12px">
     <div class="kicker">Select week</div>
@@ -220,6 +215,14 @@
   </div>
 </section>
 </main>
+<div id="quoteModal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="kicker">Today</div>
+    <p id="quoteText"></p>
+    <p class="dim" id="quoteBy"></p>
+    <button class="save" id="quoteDismiss">Got it</button>
+  </div>
+</div>
 <footer>Not medical advice.</footer>
 <script src="w1.js"></script>
 <script src="w2.js"></script>
