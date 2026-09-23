@@ -69,3 +69,15 @@
   .clock { font-size: 56px; font-weight: 700; letter-spacing: .04em; text-align: center; font-variant-numeric: tabular-nums; padding: 8px 0 12px; }
   .tbtns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .tbtns button { min-width: 72px; }
+  .modal {
+    position: fixed; inset: 0; z-index: 50;
+    background: rgba(0,0,0,.72);
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px;
+  }
+  .modal.hidden { display: none; }
+  .modal-card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 18px 20px; max-width: 420px; width: 100%;
+  }
+  .modal-card #quoteText { margin: 8px 0 6px; font-size: 18px; line-height: 1.45; }
