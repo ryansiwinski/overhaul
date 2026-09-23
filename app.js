@@ -68,27 +68,7 @@ function render(){
 }
 render();
 
-(function paintQuote(){
-  const iso = todayISO();
-  const q = window.quoteForDay && window.quoteForDay(iso);
-  if (!q) return;
-  const key = "overhaul-quote-seen-" + iso;
-  try { if (localStorage.getItem(key)) return; } catch(e){}
-  const te = document.getElementById("quoteText");
-  const ae = document.getElementById("quoteBy");
-  const modal = document.getElementById("quoteModal");
-  const btn = document.getElementById("quoteDismiss");
-  if (!te || !ae || !modal || !btn) return;
-  te.textContent = "\u201C" + q.t + "\u201D";
-  ae.textContent = "\u2014 " + q.a;
-  function dismiss(){
-    modal.classList.add("hidden");
-    try { localStorage.setItem(key, "1"); } catch(e){}
-  }
-  btn.onclick = dismiss;
-  modal.addEventListener("click", e=>{ if (e.target === modal) dismiss(); });
-  modal.classList.remove("hidden");
-})();
+if (window.showDailyQuotePopup) window.showDailyQuotePopup(todayISO());
 
 document.getElementById("tabs").addEventListener("click", e=>{
   if (e.target.tagName !== "BUTTON") return;
