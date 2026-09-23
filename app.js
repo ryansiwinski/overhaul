@@ -68,6 +68,15 @@ function render(){
 }
 render();
 
+(function paintQuote(){
+  const q = window.quoteForDay && window.quoteForDay(todayISO());
+  if (!q) return;
+  const te = document.getElementById("quoteText");
+  const ae = document.getElementById("quoteBy");
+  if (te) te.textContent = "\u201C" + q.t + "\u201D";
+  if (ae) ae.textContent = "\u2014 " + q.a;
+})();
+
 document.getElementById("tabs").addEventListener("click", e=>{
   if (e.target.tagName !== "BUTTON") return;
   document.querySelectorAll("#tabs button").forEach(b=>b.classList.remove("on"));
