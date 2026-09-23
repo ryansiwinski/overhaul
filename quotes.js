@@ -25,3 +25,23 @@ window.quoteForDay=function(iso){
   for(i=0;i<iso.length;i++) s+=iso.charCodeAt(i)*(i+1);
   return window.QUOTES[Math.abs(s)%window.QUOTES.length];
 };
+window.showDailyQuotePopup=function(iso){
+  var q=window.quoteForDay&&window.quoteForDay(iso);
+  if(!q)return;
+  var key="overhaul-quote-seen-"+iso;
+  try{if(localStorage.getItem(key))return;}catch(e){}
+  var te=document.getElementById("quoteText");
+  var ae=document.getElementById("quoteBy");
+  var modal=document.getElementById("quoteModal");
+  var btn=document.getElementById("quoteDismiss");
+  if(!te||!ae||!modal||!btn)return;
+  te.textContent="\u201C"+q.t+"\u201D";
+  ae.textContent="\u2014 "+q.a;
+  function dismiss(){
+    modal.classList.add("hidden");
+    try{localStorage.setItem(key,"1");}catch(e){}
+  }
+  btn.onclick=dismiss;
+  modal.addEventListener("click",function(e){if(e.target===modal)dismiss();});
+  modal.classList.remove("hidden");
+};
