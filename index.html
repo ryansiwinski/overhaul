@@ -3,192 +3,113 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RYAN · 10-WEEK OVERHAUL</title>
+<title>RYAN · OVERHAUL</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header>
   <div class="row">
-    <h1>OVERHAUL <span>10</span></h1>
-    <div class="meta">Sep 21 – Nov 29 · 6'3" · ~230 / 25%</div>
+    <h1>OVERHAUL</h1>
+    <div class="meta">Goal ~195–210 lb · lean and athletic</div>
   </div>
   <nav id="tabs">
     <button class="on" data-tab="week">Week</button>
     <button data-tab="food">Food</button>
-    <button data-tab="cardio">Cardio</button>
-    <button data-tab="abs">Abs</button>
     <button data-tab="sleep">Sleep</button>
-    <button data-tab="log">Log</button>
+    <button data-tab="rules">Consistency</button>
+    <button data-tab="track">Track</button>
+    <button data-tab="checkin">Check-in</button>
   </nav>
 </header>
 <main>
 <section id="week">
   <div class="card" style="margin-bottom:12px">
-    <div class="kicker">Select week</div>
-    <div class="pills" id="weeks"></div>
-    <div class="dim" id="weekmeta"></div>
+    <div class="kicker">Weekly system</div>
+    <p id="daily"></p>
   </div>
-  <div id="weekbody"></div>
+  <div class="grid" id="weekbody"></div>
 </section>
 <section id="food" class="hidden">
   <div class="grid g2">
     <div class="card">
       <div class="kicker">Daily targets</div>
-      <h2>2,700 kcal</h2>
+      <h2>2,500 kcal flat</h2>
       <table class="targets">
-        <tr><td>Protein</td><td>200–250 g</td></tr>
-        <tr><td>Fat</td><td>70–80 g</td></tr>
-        <tr><td>Carbs</td><td>230–280 g</td></tr>
-        <tr><td>Fiber</td><td>25 g+</td></tr>
-        <tr><td>Cutoff</td><td>last meal 8:30 pm</td></tr>
+        <tr><td>Protein</td><td>220 g (200 g+)</td></tr>
+        <tr><td>Carbs</td><td>250 g</td></tr>
+        <tr><td>Fat</td><td>70 g</td></tr>
       </table>
+      <p class="dim" style="margin-top:8px">Exercise calories off. Logged in MFP with an 8pm check. Carbs can go higher on Barry's days if you want.</p>
     </div>
     <div class="card">
-      <div class="kicker">Kitchen</div>
-      <div class="opt"><span class="plus">+</span> Protein every meal</div>
-      <div class="opt"><span class="plus">+</span> 40–50 g at breakfast</div>
-      <div class="opt"><span class="plus">+</span> Carbs with the lift</div>
-      <div class="opt"><span class="plus">+</span> Veg on two plates</div>
-      <div class="opt"><span class="plus">+</span> Cook meat + rice ahead</div>
-      <div class="opt"><span class="plus">+</span> Creatine 5 g</div>
-    </div>
-  </div>
-  <div class="grid g2" style="margin-top:12px">
-    <div class="card">
-      <div class="kicker">Meal 1</div>
-      <div class="opt"><span class="plus">+</span> Eggs</div>
-      <div class="opt"><span class="plus">+</span> Oats</div>
-      <div class="opt"><span class="plus">+</span> Berries</div>
-    </div>
-    <div class="card">
-      <div class="kicker">Meal 2</div>
-      <div class="opt"><span class="plus">+</span> 6–8 oz meat</div>
-      <div class="opt"><span class="plus">+</span> Rice or potato</div>
-      <div class="opt"><span class="plus">+</span> Veg + oil</div>
-    </div>
-    <div class="card">
-      <div class="kicker">Lift</div>
-      <div class="opt"><span class="plus">+</span> Banana</div>
-      <div class="opt"><span class="plus">+</span> or rice cake</div>
-      <div class="opt"><span class="plus">+</span> Whey if meal misses 40g P</div>
-    </div>
-    <div class="card">
-      <div class="kicker">Meal 3</div>
-      <div class="opt"><span class="plus">+</span> 6–8 oz meat</div>
-      <div class="opt"><span class="plus">+</span> Potato</div>
-      <div class="opt"><span class="plus">+</span> Broccoli or slaw</div>
+      <div class="kicker">Fiber</div>
+      <div class="opt"><span class="plus">+</span> Veg twice a day</div>
+      <div class="opt"><span class="plus">+</span> Plus berries or oats</div>
+      <div class="kicker" style="margin-top:12px">Supplements</div>
+      <div class="opt"><span class="plus">+</span> Creatine 5 g daily</div>
+      <div class="opt"><span class="plus">+</span> Whey as needed</div>
+      <div class="opt"><span class="plus">+</span> D3 optional</div>
     </div>
   </div>
 </section>
-<section id="cardio" class="hidden">
-  <div class="card">
-    <div class="kicker">Use the day card. Don't stack.</div>
-    <h2>Cardio</h2>
-    <div class="opt"><span class="plus">+</span> Incline walk · 25–40 min</div>
-    <div class="opt"><span class="plus">+</span> Easy run · Sat · 20–30 min</div>
-    <div class="opt"><span class="plus">+</span> Bike / row EMOM · if slept</div>
-    <div class="opt"><span class="plus">+</span> Hills · week 5+ only</div>
-    <div class="opt"><span class="plus">+</span> Steps · 8–10k</div>
-  </div>
-</section>
-<section id="abs" class="hidden">
-  <div class="card" style="margin-bottom:12px">
-    <div class="kicker" id="clockMode">Stopwatch</div>
-    <div class="clock" id="clock">0:00</div>
-    <div class="tbtns">
-      <button class="save" id="clockGo">Start</button>
-      <button class="wkbtn" id="clockReset">Reset</button>
-    </div>
-    <div class="tbtns" style="margin-top:10px">
-      <button class="wkbtn" data-cd="0">Up</button>
-      <button class="wkbtn" data-cd="30">30s</button>
-      <button class="wkbtn" data-cd="40">40s</button>
-      <button class="wkbtn" data-cd="60">60s</button>
-    </div>
-  </div>
+<section id="sleep" class="hidden">
   <div class="grid g2">
     <div class="card">
-      <div class="kicker">A · Groove</div>
-      <div class="opt setcd" data-cd="40"><span class="plus">+</span> Plank · 40s</div>
-      <div class="opt"><span class="plus">+</span> Dead bug · 10 / side</div>
-      <div class="opt"><span class="plus">+</span> Heel tap · 12</div>
+      <div class="kicker">Schedule</div>
+      <p>Lights out at 10:15–10:30 and wake at 6:30 every day, within 30 minutes on weekends.</p>
+      <p class="dim" style="margin-top:8px">Keep the room at 65–68°F and dark.</p>
     </div>
     <div class="card">
-      <div class="kicker">B · Wheel</div>
-      <div class="opt"><span class="plus">+</span> Ab wheel · 8–12</div>
-      <div class="opt setcd" data-cd="25"><span class="plus">+</span> Side plank · 25s</div>
-      <div class="opt"><span class="plus">+</span> Crunch · 12</div>
-    </div>
-    <div class="card">
-      <div class="kicker">C · Hang</div>
-      <div class="opt"><span class="plus">+</span> Hanging knee raise · 10</div>
-      <div class="opt"><span class="plus">+</span> Pallof · 8 / side</div>
-      <div class="opt"><span class="plus">+</span> Sit-up · 12</div>
-    </div>
-    <div class="card">
-      <div class="kicker">D · Cycle 3</div>
-      <div class="opt setcd" data-cd="30"><span class="plus">+</span> Hollow · 30s</div>
-      <div class="opt setcd" data-cd="20"><span class="plus">+</span> Penguin taps · 20s</div>
-      <div class="opt setcd" data-cd="25"><span class="plus">+</span> Side plank · 25s</div>
-    </div>
-    <div class="card">
-      <div class="kicker">E · March</div>
-      <div class="opt setcd" data-cd="40"><span class="plus">+</span> Plank march · 40s</div>
-      <div class="opt setcd" data-cd="20"><span class="plus">+</span> Copenhagen · 20s / side</div>
-      <div class="opt"><span class="plus">+</span> Wheel · 8</div>
-    </div>
-    <div class="card">
-      <div class="kicker">F · TGU</div>
-      <div class="opt"><span class="plus">+</span> TGU · 2 / side</div>
-      <div class="opt setcd" data-cd="40"><span class="plus">+</span> KB plank drag · 40s</div>
-      <div class="opt setcd" data-cd="30"><span class="plus">+</span> Hollow · 30s</div>
-    </div>
-    <div class="card">
-      <div class="kicker">G · Density</div>
-      <div class="opt"><span class="plus">+</span> Hanging raise · 10</div>
-      <div class="opt"><span class="plus">+</span> Wheel · 8</div>
-      <div class="opt setcd" data-cd="25"><span class="plus">+</span> Hollow hold · 25s</div>
-    </div>
-    <div class="card">
-      <div class="kicker">H · Twist</div>
-      <div class="opt"><span class="plus">+</span> Decline sit-up · 12</div>
-      <div class="opt"><span class="plus">+</span> Wheel · 8</div>
-      <div class="opt"><span class="plus">+</span> Side crunch · 10 / side</div>
+      <div class="kicker">Evening</div>
+      <table class="targets">
+        <tr><td>2:00 pm</td><td>Last caffeine</td></tr>
+        <tr><td>7:30 pm</td><td>Last big meal (a casein or cottage cheese snack later is fine)</td></tr>
+        <tr><td>8:00 pm</td><td>MFP log check</td></tr>
+        <tr><td>9:30 pm</td><td>Lay out gear and food, screens down</td></tr>
+        <tr><td>9:45 pm</td><td>Shower, then read or stretch, phone out of the room</td></tr>
+        <tr><td>10:15 pm</td><td>Lights out</td></tr>
+      </table>
     </div>
   </div>
 </section>
-<section id="log" class="hidden">
+<section id="rules" class="hidden">
+  <div class="grid g2">
+    <div class="card">
+      <div class="kicker">Never miss twice</div>
+      <p>A missed Barry's class gets made up Wed or Thu, or it becomes a minimum day plus 20 min of extra conditioning.</p>
+    </div>
+    <div class="card">
+      <div class="kicker">Blown meal</div>
+      <p>Log it honestly and eat the next meal as normal. Don't compensate the next day.</p>
+    </div>
+    <div class="card">
+      <div class="kicker">Minimum day</div>
+      <div class="opt"><span class="plus">+</span> Log food</div>
+      <div class="opt"><span class="plus">+</span> Eat 200 g+ protein</div>
+      <div class="opt"><span class="plus">+</span> Walk 7k steps</div>
+      <div class="opt"><span class="plus">+</span> Take creatine</div>
+      <div class="opt"><span class="plus">+</span> Lights out on time</div>
+    </div>
+  </div>
+</section>
+<section id="track" class="hidden">
   <div class="card">
-    <div class="kicker">Local only · food stays in MyFitnessPal</div>
+    <div class="kicker">Daily · saved on this device</div>
     <h2>Today</h2>
     <div class="grid g2">
       <div>
-        <label>Date</label>
-        <input type="date" id="logDate" />
-        <label>Morning weight (lb)</label>
-        <input type="number" id="logWt" step="0.1" placeholder="230" />
-        <label>Waist (in) · Sundays</label>
-        <input type="number" id="logWaist" step="0.1" placeholder="optional" />
+        <label>Date</label><input type="date" id="logDate" />
+        <label>Morning weight (lb)</label><input type="number" id="logWt" step="0.1" />
+        <label>Protein (g)</label><input type="number" id="logPro" />
       </div>
       <div>
-        <label>Done</label>
+        <label>Steps</label><input type="number" id="logSteps" />
+        <label>Sleep (h)</label><input type="number" id="logSleep" step="0.25" />
         <div class="checks">
-          <label><input type="checkbox" id="cBench" /> Bench</label>
-          <label><input type="checkbox" id="cSquat" /> Squat</label>
-          <label><input type="checkbox" id="cDl" /> Deadlift</label>
-          <label><input type="checkbox" id="cKb" /> KB / mix</label>
-          <label><input type="checkbox" id="cWalk" /> Walk</label>
-          <label><input type="checkbox" id="cRun" /> Run</label>
-          <label><input type="checkbox" id="cSleep" /> Sleep 7.5h+</label>
+          <label><input type="checkbox" id="cMfp" /> MFP logged</label>
+          <label><input type="checkbox" id="cTrained" /> Trained</label>
         </div>
       </div>
-    </div>
-    <h3>Top sets</h3>
-    <div class="grid g2">
-      <div><label>Bench · lb × reps</label><input type="text" id="topBench" placeholder="185 × 8" /></div>
-      <div><label>Squat · lb × reps</label><input type="text" id="topSquat" placeholder="225 × 6" /></div>
-      <div><label>Deadlift · lb × reps</label><input type="text" id="topDl" placeholder="275 × 5" /></div>
-      <div><label>Note</label><input type="text" id="logNote" placeholder="optional" /></div>
     </div>
     <button class="save" id="saveLog">Save day</button>
     <p class="dim" id="logMsg" style="margin-top:8px"></p>
@@ -197,21 +118,47 @@
     <div class="kicker">History</div>
     <div id="hist"></div>
   </div>
+  <div class="grid g2" style="margin-top:12px">
+    <div class="card">
+      <div class="kicker">Every 2 weeks</div>
+      <p>Photos, and compare the 7-day averages. If you're losing more than 2 lb a week, carbs go up.</p>
+    </div>
+    <div class="card">
+      <div class="kicker">Longer term</div>
+      <p>A lighter week every 8 weeks, and 1–2 weeks at maintenance after about 12 weeks of cutting.</p>
+      <p class="dim" style="margin-top:8px">Bloodwork baseline (lipids, A1c and fasting glucose, CMP, CBC, vitamin D, TSH, total and free testosterone), recheck in about 6 months.</p>
+    </div>
+  </div>
 </section>
-<section id="sleep" class="hidden">
-  <div class="grid g2">
-    <div class="card">
-      <div class="kicker">Non-negotiable</div>
-      <h2>7.5–9 hours</h2>
-      <p>Bed 10:30. Same wake time.</p>
-      <p>Dark / cool room.</p>
-      <p>Two nights under 7h → skip Saturday intervals.</p>
+<section id="checkin" class="hidden">
+  <div class="card">
+    <div class="kicker">Sunday check-in</div>
+    <button class="wkbtn" id="ciFill">Fill from last 7 days</button>
+    <div class="grid g2">
+      <div>
+        <label>Date</label><input type="date" id="ciDate" />
+        <label>7-day average weight</label><input type="number" id="ciAvg" step="0.1" />
+        <label>Change vs last week</label><input type="number" id="ciChg" step="0.1" />
+        <label>Waist at navel (in)</label><input type="number" id="ciWaist" step="0.1" />
+        <label>Barry's classes / 4</label><input type="number" id="ciBarrys" />
+        <label>Nights 7h+ / 7</label><input type="number" id="ciSleep" />
+        <label>Days logged / 7</label><input type="number" id="ciLogged" />
+      </div>
+      <div>
+        <label>Days at 200g+ protein / 7</label><input type="number" id="ciPro" />
+        <label>Average steps</label><input type="number" id="ciSteps" />
+        <label>Energy 1–5</label><input type="number" id="ciEnergy" min="1" max="5" />
+        <label>Hunger 1–5</label><input type="number" id="ciHunger" min="1" max="5" />
+        <label>One win</label><input type="text" id="ciWin" />
+        <label>One fix</label><input type="text" id="ciFix" />
+      </div>
     </div>
-    <div class="card">
-      <div class="kicker">Sunday 10 min</div>
-      <p>7-day weight average.</p>
-      <p>Waist tape at navel.</p>
-    </div>
+    <button class="save" id="ciSave">Save check-in</button>
+    <p class="dim" id="ciMsg" style="margin-top:8px"></p>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="kicker">Past check-ins</div>
+    <div id="ciHist"></div>
   </div>
 </section>
 </main>
@@ -223,18 +170,10 @@
     <button class="save" id="quoteDismiss">Got it</button>
   </div>
 </div>
-<footer>Not medical advice.</footer>
-<script src="w1.js"></script>
-<script src="w2.js"></script>
-<script src="w3.js"></script>
-<script src="w4.js"></script>
-<script src="w5.js"></script>
-<script src="w6.js"></script>
-<script src="w7.js"></script>
-<script src="w8.js"></script>
-<script src="w9.js"></script>
-<script src="w10.js"></script>
+<footer>Progress is measured by 7-day-average trends and photos, not an end date. Not medical advice.</footer>
+<script src="plan.js"></script>
 <script src="quotes.js"></script>
 <script src="app.js"></script>
+<script src="checkin.js"></script>
 </body>
 </html>
