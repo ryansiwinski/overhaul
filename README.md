@@ -1,6 +1,6 @@
 # overhaul
 
-10-week physique plan.
+Ongoing weekly system and Sunday check-in.
 
 ## Go live
 1. Repo **Settings → Pages**
@@ -10,4 +10,6 @@
 
 If the page is a stub, upload the full `index.html` over the existing file.
 
-Logs stay in the browser. Food stays in MyFitnessPal.
+Logs and check-ins stay in the browser. Food stays in MyFitnessPal.
+
+The old 10-week files (`w1.js`–`w10.js`) are kept in the repo but no longer loaded.
